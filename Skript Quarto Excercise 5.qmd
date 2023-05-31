@@ -1,0 +1,53 @@
+---
+title: "Excercise 5 Skript"
+format: html
+editor: visual
+---
+
+## 
+
+Library
+
+```{r}
+library("readr")
+library("sf")
+library("terra")
+library("dplyr")
+library("lubridate")
+library("ggplot2")
+library("tmap")
+```
+
+Read csv
+
+```{r}
+wildschwein_BE <- read_delim("data/wildschwein_BE_2056.csv", ",") |>
+    st_as_sf(coords = c("E", "N"), crs = 2056, remove = FALSE)
+```
+
+Task 1
+
+```{r}
+feld <- read_sf("data/Feldaufnahmen_Fanel.gpkg") 
+```
+
+Task 2
+
+```{r}
+# Setzen Sie Ihre Systemzeit auf UTC
+Sys.setenv(TZ = "UTC")
+
+# Filtern Sie die Daten nach den Monaten Mai und Juni
+wildschwein_BE_summer <- subset(wildschwein_BE, format(DatetimeUTC, "%m") %in% c("05", "06"))
+
+
+#Overlay
+wildschwein_BE_feld <- st_join(wildschwein_BE_summer, feld)
+
+```
+
+Task 2 explore
+
+```{r}
+
+```
